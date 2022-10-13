@@ -2,11 +2,11 @@ import pytest
 
 from app.presentation.controllers.index import RegisterAccountController
 from app.presentation.helpers.index import ok, server_error
-from test.presentation.mocks.index import RegisterAccountSpy
+from tests.presentation.mocks.index import RegisterAccountSpy
 
 
 def mock_request() -> RegisterAccountController.Request:
-    return RegisterAccountController.Request(email='any_email', name='any_name', password='any_password')
+    return RegisterAccountController.Request(name='any_name', email='any_email', password='any_password')
 
 
 def make_sut():

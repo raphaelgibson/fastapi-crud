@@ -2,7 +2,7 @@ from app.domain.usecases.index import RegisterAccount
 
 
 class RegisterAccountSpy(RegisterAccount):
-    result = {'email': 'any_email', 'name': 'any_name'}
+    result = {'name': 'any_name', 'email': 'any_email'}
     register_account_input: RegisterAccount.Input
 
     async def register(self, account: RegisterAccount.Input) -> RegisterAccount.Output:
