@@ -1,5 +1,5 @@
-__pycache__
 .env
 .pytest_cache
 .vscode
+local_data
 venv

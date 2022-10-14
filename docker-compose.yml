@@ -5,17 +5,18 @@ services:
     image: mysql:8
     restart: always
     volumes:
-      - ./data:/var/lib/mysql
+      - ./local_data:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: my-secret-pw
+      MYSQL_DATABASE: fastapi_crud
+      MYSQL_ROOT_PASSWORD: my-password
     ports:
-      - "5432:5432"
+      - "3306:3306"
   api:
     container_name: api-container
     image: python:3.10.7-buster
     working_dir: /usr/src/fastapi-crud
+    command: bash -c "pip install -r requirements.txt && gunicorn app.main.server:app --workers 3 --worker-class uvicorn.workers.UvicornWorker --bind :8000"
     restart: always
-    command: "pip install -r requirements.txt && gunicorn app.main.server:app --workers 3 --worker-class uvicorn.workers.UvicornWorker --bind :$PORT"
     volumes:
       - ./app:/usr/src/fastapi-crud/app/
       - ./requirements.txt:/usr/src/fastapi-crud/requirements.txt
