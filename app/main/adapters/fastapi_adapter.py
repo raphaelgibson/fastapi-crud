@@ -15,7 +15,7 @@ async def adapt_route(controller: Controller, request: Request):
 
     if http_response.status_code in success_codes:
         if type(http_response.body) != dict:
-            http_response = http_response.body.__dict__
+            http_response.body = http_response.body.__dict__
 
         return JSONResponse(status_code=http_response.status_code, content=http_response.body)
     else:

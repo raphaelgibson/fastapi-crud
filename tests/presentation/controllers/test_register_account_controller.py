@@ -1,8 +1,8 @@
 import pytest
 
 from app.presentation.controllers.index import RegisterAccountController
-from app.presentation.errors.index import EmailAlreadyExistsError
-from app.presentation.helpers.index import conflict, created, server_error
+from app.presentation.errors.index import EmailAlreadyExistsError, MissingParamError
+from app.presentation.helpers.index import bad_request, conflict, created, server_error
 from tests.presentation.mocks.index import RegisterAccountSpy
 
 
@@ -23,6 +23,27 @@ async def test_should_call_Register_Account_with_correct_values():
     request = mock_request()
     await sut.handle(request)
     assert register_account_spy.register_account_input == request
+
+
+@pytest.mark.asyncio
+async def test_should_return_400_if_name_is_not_provided():
+    sut, _ = make_sut()
+    http_response = await sut.handle({'email': 'any_email', 'password': 'any_password'})
+    assert http_response == bad_request(MissingParamError('name'))
+
+
+@pytest.mark.asyncio
+async def test_should_return_400_if_email_is_not_provided():
+    sut, _ = make_sut()
+    http_response = await sut.handle({'name': 'any_name', 'password': 'any_password'})
+    assert http_response == bad_request(MissingParamError('email'))
+
+
+@pytest.mark.asyncio
+async def test_should_return_400_if_password_is_not_provided():
+    sut, _ = make_sut()
+    http_response = await sut.handle({'name': 'any_name', 'email': 'any_email'})
+    assert http_response == bad_request(MissingParamError('password'))
 
 
 @pytest.mark.asyncio

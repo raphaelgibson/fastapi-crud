@@ -1,7 +1,7 @@
 import logging
 
-from app.presentation.errors.index import EmailAlreadyExistsError
-from app.presentation.helpers.index import conflict, created, server_error
+from app.presentation.errors.index import EmailAlreadyExistsError, MissingParamError
+from app.presentation.helpers.index import bad_request, conflict, created, server_error
 from app.presentation.protocols.index import Controller, HttpResponse
 from app.domain.usecases.index import RegisterAccount
 
@@ -12,6 +12,12 @@ class RegisterAccountController(Controller):
 
     async def handle(self, request: dict) -> HttpResponse:
         try:
+            required_fields = ['name', 'email', 'password']
+
+            for field in required_fields:
+                if field not in request or not request[field]:
+                    return bad_request(MissingParamError(field))
+
             account = await self.register_account.register(
                 RegisterAccount.Input(
                     name=request['name'],

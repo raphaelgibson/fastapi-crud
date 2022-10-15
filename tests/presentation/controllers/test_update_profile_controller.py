@@ -1,7 +1,8 @@
 import pytest
 
 from app.presentation.controllers.index import UpdateProfileController
-from app.presentation.helpers.index import ok, server_error
+from app.presentation.errors.index import MissingParamError
+from app.presentation.helpers.index import bad_request, ok, server_error
 from tests.presentation.mocks.index import UpdateProfileSpy
 
 
@@ -23,6 +24,13 @@ async def test_should_call_Update_Profile_with_correct_values():
     await sut.handle(request)
     assert update_profile_spy.account_id == request['account_id']
     assert update_profile_spy.name == request['name']
+
+
+@pytest.mark.asyncio
+async def test_should_return_400_if_name_is_not_provided():
+    sut, _ = make_sut()
+    http_response = await sut.handle({'account_id': 'any_id'})
+    assert http_response == bad_request(MissingParamError('name'))
 
 
 @pytest.mark.asyncio

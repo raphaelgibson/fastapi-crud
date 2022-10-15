@@ -30,13 +30,7 @@ class AccountSQLAlchemyRepository(
         if len(db_account) == 0:
             return None
 
-        db_account = db_account[0]
-
-        return GetAccountByIdRepository.Output(
-            id=db_account.id,
-            name=db_account.name,
-            email=db_account.email
-        )
+        return db_account[0]
 
     async def check_by_email(self, email: str) -> bool:
         db = SessionLocal()
@@ -53,11 +47,7 @@ class AccountSQLAlchemyRepository(
         db_account = db.query(Account).filter(Account.id == account_id).one()
         db.close()
 
-        return UpdateAccountRepository.Output(
-            id=db_account.id,
-            name=db_account.name,
-            email=db_account.email
-        )
+        return db_account
 
     async def delete_by_id(self, account_id: str) -> None:
         db = SessionLocal()
