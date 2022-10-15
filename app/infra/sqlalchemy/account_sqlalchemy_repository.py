@@ -1,9 +1,11 @@
+from uuid import uuid4
 
 from app.data.protocols.index import (
     DeleteAccountByIdRepository, GetAccountByIdRepository, CheckAccountByEmailRepository,
     RegisterAccountRepository, UpdateAccountRepository
 )
-from app.infra.sqlalchemy.index import Account, SessionLocal
+from app.infra.sqlalchemy.entities.account import Account
+from app.infra.sqlalchemy.helpers.connection import SessionLocal
 
 
 class AccountSQLAlchemyRepository(
@@ -12,7 +14,7 @@ class AccountSQLAlchemyRepository(
 ):
     async def register(self, data: RegisterAccountRepository.Input) -> RegisterAccountRepository.Output:
         db = SessionLocal()
-        db_account = Account(name=data.name, email=data.email, password=data.password)
+        db_account = Account(id=str(uuid4()), name=data.name, email=data.email, password=data.password)
         db.add(db_account)
         db.commit()
         db.refresh(db_account)

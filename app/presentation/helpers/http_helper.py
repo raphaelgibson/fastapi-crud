@@ -13,7 +13,7 @@ def created(body: Any) -> HttpResponse:
 
 
 def conflict(error: Exception) -> HttpResponse:
-    return HttpResponse(status_code=409, body=error)
+    return HttpResponse(status_code=409, body=error.__str__())
 
 
 def server_error() -> HttpResponse:

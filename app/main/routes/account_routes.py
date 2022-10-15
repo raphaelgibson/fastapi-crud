@@ -18,7 +18,7 @@ async def router_register_account(request: Request):
 
 
 @router.get("/profile", summary="Get profile", tags=["Account"])
-async def router_get_profile(request: Request):
+async def router_get_profile(account_id: str, request: Request):
     return await adapt_route(make_get_profile_controller(), request)
 
 
