@@ -21,12 +21,10 @@ class DbRegisterAccount(RegisterAccount):
 
         hashed_password = await self.hasher.hash(data.password)
 
-        account = await self.register_account_repository.register(
+        return await self.register_account_repository.register(
             RegisterAccountRepository.Input(
                 name=data.name,
                 email=data.email,
                 password=hashed_password
             )
         )
-
-        return RegisterAccount.Output(id=account.id, name=account.name, email=account.email)

@@ -7,6 +7,4 @@ class DbUpdateProfile(UpdateProfile):
         self.update_account_repository = update_account_repository
 
     async def update(self, account_id: str, name: str) -> UpdateProfile.Output:
-        account = await self.update_account_repository.update(account_id, name)
-
-        return UpdateProfile.Output(id=account.id, name=account.name, email=account.email)
+        return await self.update_account_repository.update(account_id, name)

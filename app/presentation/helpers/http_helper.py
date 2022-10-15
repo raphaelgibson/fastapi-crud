@@ -12,6 +12,10 @@ def created(body: Any) -> HttpResponse:
     return HttpResponse(status_code=201, body=body)
 
 
+def not_acceptable(error: Exception) -> HttpResponse:
+    return HttpResponse(status_code=406, body=error.__str__())
+
+
 def conflict(error: Exception) -> HttpResponse:
     return HttpResponse(status_code=409, body=error.__str__())
 

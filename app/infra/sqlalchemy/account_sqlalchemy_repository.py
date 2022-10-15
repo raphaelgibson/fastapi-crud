@@ -22,10 +22,15 @@ class AccountSQLAlchemyRepository(
 
         return db_account
 
-    async def get_by_id(self, account_id: str) -> GetAccountByIdRepository.Output:
+    async def get_by_id(self, account_id: str) -> GetAccountByIdRepository.Output | None:
         db = SessionLocal()
-        db_account = db.query(Account).filter(Account.id == account_id).one()
+        db_account = db.query(Account).filter(Account.id == account_id).all()
         db.close()
+
+        if len(db_account) == 0:
+            return None
+
+        db_account = db_account[0]
 
         return GetAccountByIdRepository.Output(
             id=db_account.id,

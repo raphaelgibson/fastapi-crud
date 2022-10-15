@@ -1,7 +1,8 @@
 import pytest
 
 from app.presentation.controllers.index import GetProfileController
-from app.presentation.helpers.index import ok, server_error
+from app.presentation.errors.index import ProfileNotFoundError
+from app.presentation.helpers.index import not_acceptable, ok, server_error
 from tests.presentation.mocks.index import GetProfileSpy
 
 
@@ -22,6 +23,14 @@ async def test_should_call_Get_Profile_with_correct_values():
     request = mock_request()
     await sut.handle(request)
     assert get_profile_spy.account_id == request['account_id']
+
+
+@pytest.mark.asyncio
+async def test_should_return_406_if_Get_Profile_returns_None(mocker):
+    sut, get_profile_spy = make_sut()
+    mocker.patch.object(get_profile_spy, "get", return_value=None)
+    http_response = await sut.handle(mock_request())
+    assert http_response == not_acceptable(ProfileNotFoundError())
 
 
 @pytest.mark.asyncio

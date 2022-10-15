@@ -7,6 +7,4 @@ class DbGetProfile(GetProfile):
         self.get_account_by_id_repository = get_account_by_id_repository
 
     async def get(self, account_id: str) -> GetProfile.Output:
-        account = await self.get_account_by_id_repository.get_by_id(account_id)
-
-        return GetProfile.Output(id=account.id, name=account.name, email=account.email)
+        return await self.get_account_by_id_repository.get_by_id(account_id)
