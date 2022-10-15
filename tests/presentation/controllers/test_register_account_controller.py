@@ -1,12 +1,12 @@
 import pytest
 
 from app.presentation.controllers.index import RegisterAccountController
-from app.presentation.helpers.index import ok, server_error
+from app.presentation.helpers.index import created, server_error
 from tests.presentation.mocks.index import RegisterAccountSpy
 
 
-def mock_request() -> RegisterAccountController.Request:
-    return RegisterAccountController.Request(name='any_name', email='any_email', password='any_password')
+def mock_request() -> dict:
+    return {'name': 'any_name', 'email': 'any_email', 'password': 'any_password'}
 
 
 def make_sut():
@@ -36,4 +36,4 @@ async def test_should_return_500_if_Register_Account_raises(mocker):
 async def test_should_return_200_on_success():
     sut, register_account_spy = make_sut()
     http_response = await sut.handle(mock_request())
-    assert http_response == ok(register_account_spy.result)
+    assert http_response == created(register_account_spy.result)

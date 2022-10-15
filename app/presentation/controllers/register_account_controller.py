@@ -1,6 +1,6 @@
 import logging
 
-from app.presentation.helpers.index import ok, server_error
+from app.presentation.helpers.index import created, server_error
 from app.presentation.protocols.index import Controller, HttpResponse
 from app.domain.usecases.index import RegisterAccount
 
@@ -19,7 +19,8 @@ class RegisterAccountController(Controller):
                 )
             )
 
-            return ok(account)
+            return created(account)
         except Exception as error:
             logging.log(40, error)
+
             return server_error()
