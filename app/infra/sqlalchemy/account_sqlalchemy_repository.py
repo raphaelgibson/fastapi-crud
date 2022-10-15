@@ -1,13 +1,13 @@
 
 from app.data.protocols.index import (
-    DeleteAccountByIdRepository, GetAccountByIdRepository,
+    DeleteAccountByIdRepository, GetAccountByIdRepository, CheckAccountByEmailRepository,
     RegisterAccountRepository, UpdateAccountRepository
 )
 from app.infra.sqlalchemy.index import Account, SessionLocal
 
 
 class AccountSQLAlchemyRepository(
-    RegisterAccountRepository, GetAccountByIdRepository,
+    RegisterAccountRepository, GetAccountByIdRepository, CheckAccountByEmailRepository,
     UpdateAccountRepository, DeleteAccountByIdRepository
 ):
     async def register(self, data: RegisterAccountRepository.Input) -> RegisterAccountRepository.Output:
@@ -30,6 +30,14 @@ class AccountSQLAlchemyRepository(
             name=db_account.name,
             email=db_account.email
         )
+
+    async def check_by_email(self, email: str) -> bool:
+        db = SessionLocal()
+
+        db_account = db.query(Account).filter(Account.email == email).all()
+        db.close()
+
+        return len(db_account) > 0
 
     async def update(self, account_id: str, name: str) -> UpdateAccountRepository.Output:
         db = SessionLocal()

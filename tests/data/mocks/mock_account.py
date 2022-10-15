@@ -1,5 +1,5 @@
 from app.data.protocols.index import (
-    DeleteAccountByIdRepository, GetAccountByIdRepository,
+    DeleteAccountByIdRepository, GetAccountByIdRepository, CheckAccountByEmailRepository,
     RegisterAccountRepository, UpdateAccountRepository
 )
 
@@ -22,6 +22,16 @@ class GetAccountByIdRepositorySpy(GetAccountByIdRepository):
         self.account_id = account_id
 
         return GetAccountByIdRepository.Output(**self.result)
+
+
+class CheckAccountByEmailRepositorySpy(CheckAccountByEmailRepository):
+    result = False
+    email: str
+
+    async def check_by_email(self, email: str) -> bool:
+        self.email = email
+
+        return self.result
 
 
 class UpdateAccountRepositorySpy(UpdateAccountRepository):

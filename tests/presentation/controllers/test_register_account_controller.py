@@ -1,7 +1,8 @@
 import pytest
 
 from app.presentation.controllers.index import RegisterAccountController
-from app.presentation.helpers.index import created, server_error
+from app.presentation.errors.index import EmailAlreadyExistsError
+from app.presentation.helpers.index import conflict, created, server_error
 from tests.presentation.mocks.index import RegisterAccountSpy
 
 
@@ -22,6 +23,14 @@ async def test_should_call_Register_Account_with_correct_values():
     request = mock_request()
     await sut.handle(request)
     assert register_account_spy.register_account_input == request
+
+
+@pytest.mark.asyncio
+async def test_should_return_409_if_Register_Account_returns_None(mocker):
+    sut, register_account_spy = make_sut()
+    mocker.patch.object(register_account_spy, "register", return_value=None)
+    http_response = await sut.handle(mock_request())
+    assert http_response == conflict(EmailAlreadyExistsError())
 
 
 @pytest.mark.asyncio

@@ -1,6 +1,7 @@
 import logging
 
-from app.presentation.helpers.index import created, server_error
+from app.presentation.errors.index import EmailAlreadyExistsError
+from app.presentation.helpers.index import conflict, created, server_error
 from app.presentation.protocols.index import Controller, HttpResponse
 from app.domain.usecases.index import RegisterAccount
 
@@ -18,6 +19,9 @@ class RegisterAccountController(Controller):
                     password=request['password']
                 )
             )
+
+            if account is None:
+                return conflict(EmailAlreadyExistsError())
 
             return created(account)
         except Exception as error:
