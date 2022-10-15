@@ -1,15 +1,10 @@
 from abc import ABCMeta, abstractmethod
 
-from pydantic import BaseModel
-
-
-class GetAccountByIdRepositoryOutput(BaseModel):
-    name: str
-    email: str
+from app.domain.usecases.index import GetProfile
 
 
 class GetAccountByIdRepository(metaclass=ABCMeta):
-    Output = GetAccountByIdRepositoryOutput
+    Output = GetProfile.Output
 
     @abstractmethod
     async def get_by_id(self, account_id: str) -> Output:

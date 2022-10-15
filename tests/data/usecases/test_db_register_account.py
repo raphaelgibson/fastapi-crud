@@ -1,7 +1,6 @@
 import pytest
 
 from app.data.usecases.index import DbRegisterAccount
-
 from tests.data.mocks.index import RegisterAccountRepositorySpy
 from tests.domain.mocks.index import mock_register_account_input
 

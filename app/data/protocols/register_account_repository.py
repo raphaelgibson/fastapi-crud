@@ -1,23 +1,12 @@
 from abc import ABCMeta, abstractmethod
 
-from pydantic import BaseModel
-
-
-class RegisterAccountRepositoryInput(BaseModel):
-    name: str
-    email: str
-    password: str
-
-
-class RegisterAccountRepositoryOutput(BaseModel):
-    name: str
-    email: str
+from app.domain.usecases.index import RegisterAccount
 
 
 class RegisterAccountRepository(metaclass=ABCMeta):
-    Input = RegisterAccountRepositoryInput
-    Output = RegisterAccountRepositoryOutput
+    Input = RegisterAccount.Input
+    Output = RegisterAccount.Output
 
     @abstractmethod
-    async def register(self, account: Input) -> Output:
+    async def register(self, data: Input) -> Output:
         return

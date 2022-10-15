@@ -2,7 +2,7 @@ from app.domain.usecases.index import DeleteAccount, GetProfile, RegisterAccount
 
 
 class RegisterAccountSpy(RegisterAccount):
-    result = {'name': 'any_name', 'email': 'any_email'}
+    result = {'id': 'any_id', 'name': 'any_name', 'email': 'any_email'}
     register_account_input: RegisterAccount.Input
 
     async def register(self, account: RegisterAccount.Input) -> RegisterAccount.Output:
@@ -12,7 +12,7 @@ class RegisterAccountSpy(RegisterAccount):
 
 
 class GetProfileSpy(GetProfile):
-    result = {'name': 'any_name', 'email': 'any_email'}
+    result = {'id': 'any_id', 'name': 'any_name', 'email': 'any_email'}
     account_id: str
 
     async def get(self, account_id: str) -> GetProfile.Output:
@@ -22,7 +22,7 @@ class GetProfileSpy(GetProfile):
 
 
 class UpdateProfileSpy(UpdateProfile):
-    result = {'name': 'any_name', 'email': 'any_email'}
+    result = {'id': 'any_id', 'name': 'any_name', 'email': 'any_email'}
     account_id: str
     name: str
 

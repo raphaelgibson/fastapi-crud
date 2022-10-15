@@ -2,6 +2,8 @@ from abc import ABCMeta, abstractmethod
 
 from pydantic import BaseModel
 
+from app.domain.models.index import AccountModel
+
 
 class RegisterAccountInput(BaseModel):
     name: str
@@ -9,15 +11,10 @@ class RegisterAccountInput(BaseModel):
     password: str
 
 
-class RegisterAccountOutput(BaseModel):
-    name: str
-    email: str
-
-
 class RegisterAccount(metaclass=ABCMeta):
     Input = RegisterAccountInput
-    Output = RegisterAccountOutput
+    Output = AccountModel
 
     @abstractmethod
-    async def register(self, account: Input) -> Output:
+    async def register(self, data: Input) -> Output:
         return

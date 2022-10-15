@@ -5,14 +5,9 @@ from app.infra.sqlalchemy.helpers.connection import SessionLocal
 
 
 class AccountSQLAlchemyRepository(RegisterAccountRepository):
-    async def register(self, account: RegisterAccountRepository.Input) -> RegisterAccountRepository.Output:
+    async def register(self, data: RegisterAccountRepository.Input) -> RegisterAccountRepository.Output:
         db = SessionLocal()
-
-        db_account = Account(
-            name=account.name,
-            email=account.email,
-            password=account.password
-        )
+        db_account = Account(name=data.name, email=data.email, password=data.password)
         db.add(db_account)
         db.commit()
         db.refresh(db_account)
