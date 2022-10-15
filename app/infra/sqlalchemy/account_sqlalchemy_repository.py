@@ -3,8 +3,7 @@ from app.data.protocols.index import (
     DeleteAccountByIdRepository, GetAccountByIdRepository,
     RegisterAccountRepository, UpdateAccountRepository
 )
-from app.infra.sqlalchemy.entities.account import Account
-from app.infra.sqlalchemy.helpers.connection import SessionLocal
+from app.infra.sqlalchemy.index import Account, SessionLocal
 
 
 class AccountSQLAlchemyRepository(

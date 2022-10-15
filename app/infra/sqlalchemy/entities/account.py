@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, MetaData, String, Table
 
-from app.infra.sqlalchemy.helpers.connection import Base, engine
+from app.infra.sqlalchemy.index import Base, engine
 
 
 class Account(Base):
