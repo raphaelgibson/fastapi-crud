@@ -1,4 +1,7 @@
-from app.data.protocols.index import DeleteAccountByIdRepository, GetAccountByIdRepository, RegisterAccountRepository, UpdateAccountRepository
+from app.data.protocols.index import (
+    DeleteAccountByIdRepository, GetAccountByIdRepository,
+    RegisterAccountRepository, UpdateAccountRepository
+)
 
 
 class RegisterAccountRepositorySpy(RegisterAccountRepository):
